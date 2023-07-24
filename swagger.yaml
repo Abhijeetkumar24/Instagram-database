@@ -1,0 +1,210 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Instagram API
+  description: An API for Instagram Project
+
+paths:
+  /addPost:
+    post:
+      summary: Create a new post
+      tags:
+        - Users
+      requestBody:
+        description:  information for add post
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+      responses:
+        '201':
+          description: post added succesfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /:
+    post:
+      summary: User login
+      tags:
+        - Users
+      requestBody:
+        description: User credentials for login
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+      responses:
+        '201':
+          description: User login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /post:
+    post:
+      summary: Create a new post
+      tags:
+        - Posts
+      requestBody:
+        description: Post information for creation
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostCreation'
+      responses:
+        '201':
+          description: Post creation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+schemas:
+Comment:
+  userId:
+    type: ObjectId
+    ref: User
+    required: true
+  postId:
+    type: ObjectId
+    ref: Post
+    required: true
+  text:
+    type: String
+    required: true
+  created_at:
+    type: Date
+    default: Date.now
+
+Follow:
+  senderId:
+    type: ObjectId
+    ref: User
+    required: true
+  receiverId:
+    type: ObjectId
+    ref: User
+    required: true
+  status:
+    type: String
+    required: true
+  created_at:
+    type: Date
+    default: Date.now
+
+Like:
+  userId:
+    type: ObjectId
+    ref: User
+    required: true
+  postId:
+    type: ObjectId
+    ref: Post
+    required: true
+  created_at:
+    type: Date
+    default: Date.now
+
+Post:
+  userId:
+    type: ObjectId
+    ref: User
+    required: true
+  image:
+    type: String
+    required: true
+  caption:
+    type: String
+    required: true
+  likes:
+    type: Number
+    default: 0
+  comments:
+    type: Number
+    default: 0
+  created_at:
+    type: Date
+    default: Date.now
+
+Session:
+  userId:
+    type: ObjectId
+    ref: User
+    required: true
+  token:
+    type: String
+    required: true
+  created_at:
+    type: Date
+    default: Date.now
+  expires_at:
+    type: Date
+
+User:
+  username:
+    type: String
+    required: true
+  email:
+    type: String
+    required: true
+  password:
+    type: String
+    required: true
+  name:
+    type: String
+    required: true
+  bio:
+    type: String
+  profileImage:
+    type: String
+  created_at:
+    type: Date
+    default: Date.now
