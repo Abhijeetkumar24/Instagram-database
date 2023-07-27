@@ -4,8 +4,8 @@ import addPostRoute from './addPostRoute';
 import commentRoute from './commentRoute';
 import followRoute from './followRoute';
 import likeRoute from './likeRoute';
-import sessionRoute from './sessionRoute';
-// import allpost from './allPost';
+// import sessionRoute from './sessionRoute';
+import getPost from './getPost';
 import express from "express";
 
 
@@ -20,8 +20,8 @@ router.use('/addPost', addPostRoute);
 router.use('/comment', commentRoute);
 router.use('/follow', followRoute);
 router.use('/like', likeRoute);
-router.use('/session', sessionRoute);
-//router.use('/allpost', allpost);
+// router.use('/session', sessionRoute);
+router.use('/getPost', getPost);
 
 
 export default router;

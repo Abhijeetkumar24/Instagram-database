@@ -5,25 +5,25 @@ info:
   description: An API for Instagram Project
 
 paths:
-  /addPost:
+  /signup:
     post:
-      summary: Create a new post
+      summary: Create a new user account
       tags:
         - Users
       requestBody:
-        description:  information for add post
+        description: User information for signup
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Post'
+              $ref: '#/components/schemas/userSignUp'
       responses:
         '201':
-          description: post added succesfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Post'
+          description: User signup successful
+          # content:
+          #   application/json:
+          #     schema:
+          #       $ref: '#/components/schemas/UserResponse'
         '400':
           description: Bad Request
           content:
@@ -37,7 +37,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /:
+  /login:
     post:
       summary: User login
       tags:
@@ -48,14 +48,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserLogin'
+              $ref: '#/components/schemas/userLogin'
       responses:
         '201':
           description: User login successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserResponse'
+          # content:
+          #   application/json:
+          #     schema:
+          #       $ref: '#/components/schemas/UserResponse'
         '400':
           description: Bad Request
           content:
@@ -90,10 +90,10 @@ paths:
       responses:
         '201':
           description: Post creation successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PostResponse'
+          # content:
+          #   application/json:
+          #     schema:
+          #       $ref: '#/components/schemas/PostResponse'
         '400':
           description: Bad Request
           content:
@@ -102,109 +102,78 @@ paths:
                 $ref: '#/components/schemas/Error'
         '500':
           description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          # content:
+          #   application/json:
+          #     schema:
+          #       $ref: '#/components/schemas/Error'
+
 components:
-schemas:
-Comment:
-  userId:
-    type: ObjectId
-    ref: User
-    required: true
-  postId:
-    type: ObjectId
-    ref: Post
-    required: true
-  text:
-    type: String
-    required: true
-  created_at:
-    type: Date
-    default: Date.now
+  schemas:
+    userSignUp:
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        name:
+          type: string
+        bio:
+          type: string
+        profileImage:
+          type: string
+        created_at:
+          type: Date
+      required:
+        - name
+        - username
+        - email
+        - password
 
-Follow:
-  senderId:
-    type: ObjectId
-    ref: User
-    required: true
-  receiverId:
-    type: ObjectId
-    ref: User
-    required: true
-  status:
-    type: String
-    required: true
-  created_at:
-    type: Date
-    default: Date.now
+    # UserResponse:
+    #   type: object
+    #   properties:
+    #     message:
+    #       type: string
+    #     user:
+    #       type: object
+    #       $ref: '#/components/schemas/UserSignup'
+    #     token:
+    #       type: string
+    userLogin:
+      properties:
+        
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
 
-Like:
-  userId:
-    type: ObjectId
-    ref: User
-    required: true
-  postId:
-    type: ObjectId
-    ref: Post
-    required: true
-  created_at:
-    type: Date
-    default: Date.now
 
-Post:
-  userId:
-    type: ObjectId
-    ref: User
-    required: true
-  image:
-    type: String
-    required: true
-  caption:
-    type: String
-    required: true
-  likes:
-    type: Number
-    default: 0
-  comments:
-    type: Number
-    default: 0
-  created_at:
-    type: Date
-    default: Date.now
+    PostCreation:
+      properties:
+        userId:
+          type: string
+        image:
+          type: string
+        caption:
+          type: string
+        likes:
+          type: number
+        comments:
+          type: object
+        created_at:
+          type: date
+      required:
+        - userId
+        - image
+        - caption
 
-Session:
-  userId:
-    type: ObjectId
-    ref: User
-    required: true
-  token:
-    type: String
-    required: true
-  created_at:
-    type: Date
-    default: Date.now
-  expires_at:
-    type: Date
-
-User:
-  username:
-    type: String
-    required: true
-  email:
-    type: String
-    required: true
-  password:
-    type: String
-    required: true
-  name:
-    type: String
-    required: true
-  bio:
-    type: String
-  profileImage:
-    type: String
-  created_at:
-    type: Date
-    default: Date.now
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
