@@ -1,0 +1,179 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Instagram API
+  description: An API for Instagram Project
+
+paths:
+  /signup:
+    post:
+      summary: Create a new user account
+      tags:
+        - Users
+      requestBody:
+        description: User information for signup
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userSignUp'
+      responses:
+        '201':
+          description: User signup successful
+          # content:
+          #   application/json:
+          #     schema:
+          #       $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /login:
+    post:
+      summary: User login
+      tags:
+        - Users
+      requestBody:
+        description: User credentials for login
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userLogin'
+      responses:
+        '201':
+          description: User login successful
+          # content:
+          #   application/json:
+          #     schema:
+          #       $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /post:
+    post:
+      summary: Create a new post
+      tags:
+        - Posts
+      requestBody:
+        description: Post information for creation
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostCreation'
+      responses:
+        '201':
+          description: Post creation successful
+          # content:
+          #   application/json:
+          #     schema:
+          #       $ref: '#/components/schemas/PostResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          # content:
+          #   application/json:
+          #     schema:
+          #       $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    userSignUp:
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        name:
+          type: string
+        bio:
+          type: string
+        profileImage:
+          type: string
+        created_at:
+          type: Date
+      required:
+        - name
+        - username
+        - email
+        - password
+
+    # UserResponse:
+    #   type: object
+    #   properties:
+    #     message:
+    #       type: string
+    #     user:
+    #       type: object
+    #       $ref: '#/components/schemas/UserSignup'
+    #     token:
+    #       type: string
+    userLogin:
+      properties:
+        
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+
+
+    PostCreation:
+      properties:
+        userId:
+          type: string
+        image:
+          type: string
+        caption:
+          type: string
+        likes:
+          type: number
+        comments:
+          type: object
+        created_at:
+          type: date
+      required:
+        - userId
+        - image
+        - caption
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
